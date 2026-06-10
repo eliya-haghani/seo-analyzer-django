@@ -1,0 +1,6 @@
+    v激/
+    *.pyc
+    __pycache__/
+    db.sqlite3
+    .env
+    .vscode/

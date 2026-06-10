@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Analyzer Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        .hero { background: #2c3e50; color: white; padding: 50px 0; border-bottom: 5px solid #1abc9c; }
+        .card { border-radius: 15px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .stat-box { text-align: center; padding: 20px; border-right: 1px solid #eee; }
+        .stat-box:last-child { border-right: none; }
+        .score-box { font-size: 48px; font-weight: bold; color: #1abc9c; }
+        .recommendation-item { border-right: 4px solid #f1c40f; background: #fff9e6; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="hero text-center">
+    <div class="container">
+        <h1><i class="fas fa-search-location"></i> تحلیل‌گر حرفه‌ای سئو</h1>
+        <form method="POST" class="mt-4 row justify-content-center">
+            {% csrf_token %}
+            <div class="col-md-7">
+                <input type="url" name="url" class="form-control form-control-lg" placeholder="آدرس سایت را اینجا وارد کنید (مثلاً https://google.com)" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success btn-lg w-100">شروع تحلیل</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container mt-4">
+    {% if result %}
+    <div class="row">
+        <!-- کارت اصلی امتیاز -->
+        <div class="col-md-4">
+            <div class="card p-4 text-center">
+                <h5>نمره کل سئو</h5>
+                <div class="score-box">{{ result.seo_score }}</div>
+                <hr>
+                <div class="text-start">
+                    <p><i class="fas fa-bolt text-warning"></i> سرعت لود: {{ result.load_speed }} ثانیه</p>
+                    <p><i class="fas fa-file-word text-primary"></i> تعداد کلمات: {{ result.word_count }}</p>
+                    <p><i class="fas fa-robot text-secondary"></i> فایل Robots: {{ result.has_robots }}</p>
+                    <p><i class="fas fa-sitemap text-info"></i> نقشه سایت: {{ result.has_sitemap }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- جزئیات فنی -->
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h5><i class="fas fa-info-circle"></i> جزئیات محتوا</h5>
+                <table class="table mt-3">
+                    <tr><td><b>عنوان صفحه:</b></td><td>{{ result.details.title }}</td></tr>
+                    <tr><td><b>توضیحات متا:</b></td><td>{{ result.details.meta_description }}</td></tr>
+                    <tr><td><b>تگ‌های H1 / H2:</b></td><td>{{ result.details.h1_count }} / {{ result.details.h2_count }}</td></tr>
+                    <tr><td><b>لینک‌های داخلی / خارجی:</b></td><td>{{ result.internal_links }} / {{ result.external_links }}</td></tr>
+                    <tr><td><b>وضعیت تصاویر:</b></td><td>{{ result.details.images_total }} عدد ({{ result.details.images_without_alt }} بدون Alt)</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- پیشنهادات -->
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card p-4">
+                <h5 class="mb-3 text-danger"><i class="fas fa-exclamation-triangle"></i> لیست پیشنهادات اصلاحی:</h5>
+                {% for rec in result.recommendations %}
+                <div class="recommendation-item">{{ rec }}</div>
+                {% empty %}
+                <div class="alert alert-success">عالی! هیچ خطای بحرانی در سئو یافت نشد.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="alert alert-danger mt-4">{{ error }}</div>
+    {% endif %}
+</div>
+
+</body>
+</html>
