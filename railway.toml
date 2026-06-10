@@ -2,4 +2,4 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "cd seo_analyzer && gunicorn seo_analyzer.wsgi"
+startCommand = "gunicorn --bind 0.0.0.0:$PORT --pythonpath seo_analyzer seo_analyzer.wsgi"
