@@ -1,9 +1,5 @@
 [build]
 builder = "nixpacks"
-# این خط به ریلوِی می‌گوید پیش‌نیازها کجا هستند
-installCommand = "pip install -r requirements.txt"
 
 [deploy]
-# این دستور حیاتی است چون فایل wsgi داخل زیرپوشه است
 startCommand = "cd seo_analyzer && gunicorn seo_analyzer.wsgi"
-restartPolicyType = "on-failure"
