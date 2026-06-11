@@ -6,6 +6,9 @@
 شما می‌توانید نسخه آنلاین این پروژه را در آدرس زیر مشاهده کنید:
 👉 **[https://seo-analyzer-django-production.up.railway.app/](https://seo-analyzer-django-production.up.railway.app/api/analyze)**
 
+برخی وب‌سایت‌ها ممکن است به دلیل تنظیمات امنیتی یا محدودیت‌های شبکه، از سمت محیط ابری قابل تحلیل نباشند.
+
+
 ---
 
 ## 🚀 ویژگی‌ها (Features)
